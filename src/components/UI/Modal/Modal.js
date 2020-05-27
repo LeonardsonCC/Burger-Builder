@@ -2,11 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./Modal.css";
 
-import Aux from "../../../hoc/Auxiliar";
+import Aux from "../../../hoc/Auxiliar/Auxiliar";
 import Backdrop from "../Backdrop/Backdrop";
 
-function Modal(props) {
-    console.log("[modal] update");
+function modal(props) {
     return (
         <Aux>
             <Backdrop show={props.show} clicked={props.modalClosed} />
@@ -25,12 +24,16 @@ function Modal(props) {
     );
 }
 
-Modal.propTypes = {
+modal.propTypes = {
     show: PropTypes.bool,
     modalClosed: PropTypes.func.isRequired,
 };
 
-const shouldComponentUpdate = (prevProps, props) =>
-    prevProps.show === props.show;
+const shouldComponentNotUpdate = (prevProps, props) => {
+    if (props.show) {
+        return prevProps.children === props.children;
+    }
+    return prevProps.show === props.show;
+};
 
-export default React.memo(Modal, shouldComponentUpdate);
+export default React.memo(modal, shouldComponentNotUpdate);
